@@ -1,0 +1,45 @@
+#!/bin/sh
+# $Id: reset.a68,v 1.1 2004/09/04 03:19:16 teshields Exp $
+# Reset the nameseed file and remove *.c, *.o and *.m files
+
+help() {
+  echo 'Usage: reset.a68 [-h|--help] [-f|SEED]'
+  echo "    -f: copy rctr to nameseed"
+  echo "  SEED: set rctr to SEED and copy to nameseed"
+  echo "  eg)  reset.a68 AAAAAPM"
+  exit 0
+}
+
+if [ $# -eq 0 ]
+then help;  exit 0
+fi
+
+case $1 in
+  -h|--help)
+	help
+	exit 1
+	;;
+
+  -f)   cp rctr nameseed
+	;;
+	
+  -*)	echo "Unknown option"
+	help
+	exit 1
+	;;
+
+   *)	echo -n "$1" >rctr
+	cp rctr nameseed
+	;;
+esac
+
+# Remove the DECS and PROGRAM c, o and m files only
+for i in *.a68
+do
+   B=$(basename $i .a68)
+   rm -f ${B}.m ${B}.c ${B}.o
+done
+
+echo "nameseed reset and c, o and m files removed."
+exit 0
+# End of reset.a68

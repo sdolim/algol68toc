@@ -1,0 +1,64 @@
+This is Algol68toC, maintained by Sian Leitch
+<algol68@sleitch.nildram.co.uk> on Sat Feb 23 17:19:54 GMT 2002.
+
+The original source of the QAD Standard Prelude can be had on demand
+from the maintainer at <algol68@sleitch.nildram.co.uk>
+
+Here is the copyright of the Ctrans source:-
+    ************************************************************************
+    This Program is the property of the Secretary of State for Defence
+    (United Kingdom) acting through the Defence Research Agency (DRA). Use,
+    reproduction, production of amended versions and/or transfer of this
+    Program is permitted provided that:
+
+  (a)  this legend be preserved on any such reproduction and amended version,
+  (b)  any amended version of this Program be clearly marked to show the
+       nature of the amendment and of the name of the amending organisation,
+  and
+  (c)  any recipient  of such reproduction or amended version accept the
+       conditions set out in this legend.
+
+                         Crown Copyright, (c)   1993
+
+                             All rights reserved.
+
+    The Secretary of State for Defence (United Kingdom) acting through his
+    Defence Research Agency (DRA) gives no warranty that any element of the
+    Software is suitable for any purpose and he shall not be liable for any
+    loss or damage including loss or damage resulting in injury or death
+    howsoever caused which results from the use of the Software, or any
+    developments adaptions modifications translations and enhancements
+    thereof.
+
+Upstream authors:-
+   
+    The original authors may be contacted via email on
+    <ella@dra.hmg.gb> or by writing to ELLA Office, DRA, St Andrews Road,
+    Malvern, Worcs WR14 3PS, UK.
+    ************************************************************************
+
+Here is the copyright of the QAD Standard Prelude:-
+   Copyright (C) 2000, 2001, 2002  Sian Leitch
+
+Here is the copyright of the book "Programming Algol 68 Made Easy"
+   Copyright (C) 1995, 1997, 2000, 2001, 2002 Sian Leitch
+
+Both the QAD standard prelude and the book are subject to the
+following:-
+
+  The QAD standard prelude and the book are free software; you can
+redistribute them and/or modify them under the terms of the GNU
+General Public License as published by the Free Software Foundation;
+either version 2 of the License, or (at your option) any later
+version.
+
+  The program QAD standard prelude and the book are distributed in
+the hope that they will be useful, but WITHOUT ANY WARRANTY; without
+even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
+
+  You should have received a copy of the GNU General Public License with
+  the Debian GNU/Linux distribution in file /usr/doc/copyright/GPL;
+  if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+  Suite 330, Boston, MA  02111-1307  USA

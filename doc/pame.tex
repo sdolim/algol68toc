@@ -1,0 +1,41 @@
+% $Log: pame.tex,v $
+% Revision 1.2  2004/09/04 02:43:39  teshields
+% Algol68toC v1.8 Public Baseline
+%
+% Revision 1.2  2002/06/20 11:49:28  sian
+% mm removed, padding removed, ca68 added
+%
+\documentclass[11pt,a5paper,oneside]{book}
+\pagestyle{headings}
+\usepackage{verbatim,epic,eepic}
+\usepackage{makeidx,pame}
+\makeindex
+\makeanswers
+\begin{document}
+\pagestyle{headings}
+\frontmatter
+\input{title}
+\input index.see
+\hylabel{toc}
+\tableofcontents
+\input{preface}
+\mainmatter
+\input{chapter1}
+\input{chapter2}
+\input{chapter3}
+\input{chapter4}
+\input{chapter5}
+\input{chapter6}
+\input{chapter7}
+\input{chapter8}
+\input{chapter9}
+\input{chapter10}
+\input{chapter11}
+\input{chapter12}
+\input{chapter13}
+\appendix
+\printanswers
+\backmatter
+\input{bibliography}
+\printindex
+\end{document}

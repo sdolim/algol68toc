@@ -1,0 +1,28 @@
+Version 2109930912
+Define message.oscoms "Module Manager database for Algol68toC development"
+Define rootdir "/usr/share/algol68toc"
+Define ctdir "'rootdir'"
+Define assocdir ""
+Define cenvdef ""
+Define a68opts "-s -v"
+Define a68libs "/usr/lib"
+Define cc "gcc"
+Define hostos "Linux"
+Define objdir "."
+Define a68toc "a68toc"
+Define a68first "'rootdir'/Afirst.o"
+Define a68linklibs "-la68s -la68"
+Define a68include "-I/usr/include/algol68"
+Define translate.a68toc "'a68toc' 'a68opts' @?'skip'{-skip }"~
+"-lib 'ctdir' ?'libc'{ -cdir 'libc'} @?'libd<'{ -dir 'libd'^}"~
+" ?'stars'{ -staredit 'stars'} ?'uname'{-uname 'uname'} 'srcname'"
+Define compile.cc "'cc' ?'options'{ 'options'} ?'debug'{-g} -DA68_CHECK"~
+" -O0 'cenvdef' -o 'objdir'/'modname'.o 'a68include' @?'incl>'{ -I 'incl'^}"~
+" -c 'modname'.c"
+Define compile.ar "#'prog'{ar rv 'assocdir'/'liblib' 'objdir'/'modname'.o}"
+Define compile.ranlib "#'prog'{ranlib 'assocdir'/'liblib'}"
+Define compile.del "#'prog'{rm 'objdir'/'modname'.o #'debug'{'modname'.c}}"
+Define compile.mvm "#'prog'{mv 'modname'.m 'assocdir'/m}"
+Define link.link "'cc' -o 'objdir'/'modname' 'a68first'"~
+" 'objdir'/'modname'.o @?'libe>'{ 'libe'^} "~
+" -L'a68libs' 'a68linklibs' -lm ?'debug'{-lg } -lc"

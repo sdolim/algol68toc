@@ -1,0 +1,24 @@
+Package: algol68toc
+Version: 1.1
+Section: devel
+Priority: optional
+Architecture: i386
+Depends: gcc(>=2.95.2), libc6 (>=2.1.3), libc6-dev (>=2.1.3-10), tetex-bin (>=1.0.6-7), texinfo (>=4.0-4)
+Installed-Size: 2048
+Maintainer: Sian Leitch <algol68@sleitch.nildram.co.uk>
+Description: Algol 68 development system
+ Everything you need to start developing programs with the
+ general-purpose high-level programming language Algol 68. The
+ package includes the following:-
+ .
+ Algol 68 to C translator
+ Programming Algol 68 Made Easy
+    (610-page book teaching the language from scratch. The book is in
+	 TeX DVI format and requires the Xdvi program for viewing)
+ System documentation in GNU info format
+ Module manager documentation in GNU info format
+ Compiler documentation in TeX DVI format
+ Various example Algol 68 program sources
+ .
+ The language was originally developed under the auspices of the
+ International Federation for Information Processing (IFIP).

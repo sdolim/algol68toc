@@ -1,0 +1,201 @@
+#!/bin/bash
+#
+# Phoenix Engineering (C) 21308
+# Created: SL 21308-05-18
+# Amended: SL 21308-06-19
+#
+#set -x
+
+DESTDIR=
+INCLUDES="-I/usr/include/algol68 -I/usr/include"
+ROOT=/usr/share/algol68toc
+LIBRARIES=-L${HOME}/lib
+A68DIRS="-dir ${ROOT}"
+STARS="-staredit ${A68_STAREDIT}"
+UNAME="-uname seedfile"
+DEBUG=n
+CHECK=-DA68_CHECK
+
+usage() {
+    echo "Usage:"
+    echo "    ca68 [-c] [-d m-files-dir] [-g] [-h|--help] [-I include-dir]"
+    echo "         [-L library-dir] [-l link library]"
+    echo "         [-M module-library-dir] [-m module-library]"
+    echo "         [-s staredit] [-u uname] [-w web-include-dirs]"
+    echo "            file[.a68|.w68]"
+    echo
+    echo "Defaults:"
+    echo "   A68DIRS  =${A68DIRS}"
+    echo "            Use -d to add to this"
+    echo "   INCLUDES =${INCLUDES}"
+    echo "            Use -I to add to this"
+    echo "   LIBRARIES=${LIBRARIES}"
+    echo "            Use -L and -l to add to this"
+    echo "   STARS    =${STARS}"
+    echo "            Use -s to replace this"
+    echo "   UNAME    =${UNAME}"
+    echo "            Use -u to replace this"
+    echo
+    echo "If the file is a DECS module, store the .o object file into"
+    echo "the library specified by -m in the directory specified by -M"
+    echo
+    exit 1
+}
+
+add_to () {
+    if [ "$1" == "A68DIRS" ]
+    then A68DIRS="${A68DIRS} -dir $2"
+    elif [ "$1" == "DESTDIR" ]
+    then DESTDIR=$2
+    elif [ "$1" == "DESTLIB" ]
+    then DESTLIB=$2
+    elif [ "$1" == "INCLUDES" ]
+    then INCLUDES="${INCLUDES} -I$2"
+    elif [ "$1" == "LIBRARY" ]
+    then
+	TEMP=${2#lib}
+	LIBRARIES="${LIBRARIES} -l${TEMP%.a}"
+    elif [ "$1" == "LIBDIR" ]
+    then LIBRARIES="${LIBRARIES} -L$2"
+    elif [ "$1" == "WEBINCLUDE" ]
+    then WEBINCLUDE="${WEBINCLUDE} -I$2"
+    fi
+}
+
+# Check the options
+if [ $# -eq 0 ]
+then usage; exit 1
+fi
+
+while [ $# -gt 0 ]
+do
+  case $1 in
+      -c) CHECK=""
+          shift 1
+          ;;
+      -d)
+	  add_to A68DIRS $2
+	  shift 2
+	  ;;
+      -g)
+	  LIBRARIES="${LIBRARIES} -lg"
+	  CFLAGS="-g"
+	  DEBUG=y
+	  shift 1
+	  ;;
+      -h|--help)
+	  usage
+	  ;;
+      -I)
+	  add_to INCLUDES $2
+	  shift 2
+	  ;;
+      -L)
+	  add_to LIBDIR $2
+	  shift 2
+	  ;;
+      -l)
+	  add_to LIBRARY $2
+	  shift 2
+	  ;;
+      -m)
+	  add_to DESTLIB $2
+	  shift 2
+	  ;;
+      -M)
+	  add_to DESTDIR $2
+	  shift 2
+	  ;;
+      -s)
+	  STARS="-staredit $2"
+	  shift 2
+	  ;;
+      -u)
+	  UNAME="-uname $2"
+	  shift 2
+	  ;;
+      -w)
+	  add_to WEBINCLUDE $2
+	  shift 2
+	  ;;
+      -*|+*)
+	  echo "ca68: Unknown option $1"
+	  exit 1
+	  ;;
+      *)
+	  FILE=$1
+	  W68S=${FILE%.w68}
+	  D68S=$(dirname $1)
+	  shift
+	  ;;
+  esac
+done
+
+# Check the filename and run tangle68 if required
+if [ "${FILE}" != "${W68S}" ]
+then
+    if [ "${DEBUG}" == "y" ]
+    then WDBG=-d
+    else WDBG=
+    fi
+    tangle68 ${WEBINCLUDE} ${WDBG} ${W68S}.w68
+    A68S=${W68S}
+else
+    A68S=${FILE%.a68}
+fi
+
+# Check whether the module is a program
+grep "PROGRAM " ${A68S}.a68 >/dev/null
+if [ $? -eq 0 ]
+then TYPE=p
+else
+    TYPE=m
+# Ensure that the sub-directory for .m files exists
+    if [ ! -z "${DESTDIR}" ]
+    then
+        if [ ! -e ${DESTDIR}/m ]
+	then mkdir ${DESTDIR}/m
+	    echo "ca68: Directory ${DESTDIR}/m created"
+	fi
+    fi
+fi
+
+# Translate to C and compile
+a68toc -s -v -lib ${ROOT} ${A68DIRS} ${UNAME} ${STARS} ${A68S}.a68
+RES=$?
+
+if [ ${RES} -eq 0 ]
+then
+    if [ ! -z "${D68S}" ] && [ "${D68S}" != "./" ] && [ "${D68S}" != "." ]
+    then mv $(basename ${A68S}).c ${D68S}
+    fi
+    gcc -O0 ${CHECK} ${CFLAGS} ${INCLUDES} -o ${A68S}.o -c ${A68S}.c
+else
+    rm -f $(basename ${A68S}).c
+    exit ${RES}
+fi
+
+if [ "${TYPE}" == "p" ]
+then # Link the program
+    gcc -o ${A68S} ${ROOT}/Afirst.o ${A68S}.o ${LIBRARIES} -la68s -la68 -lm -lc
+    RES=$?
+    if [ ${RES} -ne 0 ]
+    then exit ${RES}
+    fi
+elif [ ! -z "${DESTDIR}" ]
+then
+# Put the .o file into the specified library
+    ar rv ${DESTDIR}/${DESTLIB} ${A68S}.o
+    ranlib ${DESTDIR}/${DESTLIB}
+    ar t ${DESTDIR}/${DESTLIB}
+# Put the .m file into the sub-directory
+    mv $(basename ${A68S}).m ${DESTDIR}/m
+    echo "ca68: .m file moved to ${DESTDIR}/m"
+    if [ "${DEBUG}" == "n" ]
+    then
+        rm -f ${A68S}.c
+        echo "ca68: .c file deleted"
+    fi
+fi
+
+exit 0

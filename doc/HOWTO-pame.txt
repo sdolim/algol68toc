@@ -1,0 +1,54 @@
+			   How to read PAME
+			   ================
+
+The book "Programming Algol 68 Made Easy" is made available as a TeX
+source file. If you find any errors, please send details to the
+author whose email address is <algol68@sleitch.nildram.co.uk>. Also,
+if you do make any changes, please mark the text with a TeX comment
+to that effect. The book is copyright (C) 2000, 2001, 2002 Sian
+Leitch and is subject to the GNU General Public License version 2 (or
+any later version).
+
+After the book has been compiled to a DVI file (see the Makefile),
+you should use the following command to call `xdvi' (for a screen
+with resolution of 800x600, use a geometry of 420x600, preferably
+remove the buttons with the command `x', adjust the position with the
+scrollbars, and then key `1k' to keep the page at that position when
+you change pages):-
+
+xdvi -hl chartreuse3 -offsets 0.5 -geometry 600x740 -paper a5 pame.dvi
+
+When the book is displayed by `xdvi', click on the button giving the
+smallest shrinkage percentage.  When you have a page
+with an arabic page number, say `2', in `xdvi' key the command
+
+   2P
+
+(notice the capital `P') which will tell `xdvi' that the current
+page is page 2. You can then go to a specific page n by keying the
+command
+
+   ng
+
+For example: to go to page 223, key `223g'. See the `xdvi' man page
+for other keyboard commands.
+
+The book contains clickable hyperlinks which are shown as underlined
+in chartreuse3 (if you used the above `xdvi' command).  If you
+left-click on such a link, you will be instantly transported to its
+destination. If you middle-click on such a link, a NEW `xdvi' window
+will be opened showing the destination link. You will have to choose
+the shrink button as before.  Note that the `Back' button will take
+you to the source of any hyperlink jump. For example, if you are
+reading the text and you notice a link to another part, if you jump
+to the link and then want to return to where you are, simply click on
+the `Back' button (or key `B').
+
+At the bottom of each page, you will find a link to the start of the
+contents on the left and a link to the start of the index on the
+right.
+
+Sian Leitch
+Inverness
+Scotland
+BP21308-06-06

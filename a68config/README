@@ -1,0 +1,25 @@
+
+This file lists the contents and use of directory
+                   /usr/src/ctrans/a68library/
+
+This directory contains subdirectories
+      a    The algol68 source file for a68config
+      c    The c source file resulting from translation
+      m    The a68config module file
+      bin  The a68config object file
+
+The file
+      modules.mmd is the mm control file for creating the Algol 68 build.
+
+The file
+      ctrans_nameseed  is the ctrans seed file which must be re-initialised to
+                       AAAALIB before the start of a complete rebuild.
+                       The command "reset.ctrans -f rctr" will do it.
+      rctr             contains AAAALIB
+
+This area depends upon:-  include
+                          sunos   or  i386emx or Linux
+                          library
+
+
+Rebuild using mm

@@ -1,0 +1,10 @@
+#!/bin/sh
+# Executes mm.bin with a system-wide command file
+
+if [ ! -x /usr/bin/mm.bin ]
+then echo "Cannot find mm.bin"
+else
+   /usr/bin/mm.bin -i /usr/share/algol68toc/cmds.eli "$@"
+fi
+
+# end of mm

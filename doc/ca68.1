@@ -1,0 +1,307 @@
+.\"
+.\" $Id: ca68.1,v 1.2 2004/09/04 02:35:56 teshields Exp $
+.
+.Dd 19th June 2002
+.Os "Debian GNU/Linux" 3.0
+.Dt CA68 1
+.
+.
+.Sh NAME
+.
+.Nm ca68
+.Nd compile an Algol 68 module
+.
+.
+.Sh SYNOPSIS
+.
+.Nm
+.Op Fl c
+.Op Fl d Ar mdir
+.Op Fl g
+.Op Fl h | Fl \-help
+.Op Fl I Ar inc-dir
+.Op Fl L Ar link-dir
+.Op Fl l Ar lib
+.Op Fl M Ar lib-dir
+.Op Fl m Ar mod-lib
+.Op Fl s Ar staredit
+.Op Fl u Ar uname
+.Op Fl w Ar web68-dirs
+.Ar module-path Ns Op \&.a68 Ns | Ns \&.w68
+.
+.
+.Sh DESCRIPTION
+.
+.Nm
+will convert a source module written in Algol 68 or Web 68 into an
+object module. If it is a program,
+.Nm
+will link it to form a binary program in the directory specified by
+.Ar module-path .
+Otherwise, it will store the object module in a static library
+specified in a
+.Fl m
+argument which should be preceded by a
+.Fl M
+argument giving its directory. The module can include debugging
+symbols.
+.Nm
+is intended to replace the module manager
+.Ql mm
+usually supplied with the
+.Xr a68toc 1
+translator, and the
+.Xr make 1
+command.
+.
+.Pp
+.Nm
+will run
+.Xr tang 1
+if the file extension is
+.Pa .w68 .
+If the filename has no extension,
+.Ql .a68
+is presumed.
+.
+.
+.Sh OPTIONS
+.
+.
+The following options are available:-
+.Bl -tag -width Ds
+.
+.
+.It Fl c
+Remove run-time checks from the compiled program (not recommended).
+.
+.
+.It Fl d Ar mdir
+Add
+.Ar mdir
+to the list of directories containing \&.m files produced by
+.Xr a68toc 1
+for precompiled modules. The default value is
+.Bl -tag -width 10n -offset indent
+.It Pa /usr/share/algol68/ .
+.El
+.Lp
+The last directory added will be searched first. This option may be
+repeated.
+.
+.
+.It Fl g
+Add debugging symbols to your program. It will also run
+.Xr tang 1
+in debugging mode.
+.
+.
+.It Fl h | Fl \-help
+Displays a terse help message together with the defaults of various
+parameters.
+.
+.
+.It Fl I Ar inc-dir
+Add
+.Ar inc-dir
+to the list of directories which
+.Xr gcc 1
+should search for included C files. The default value is
+.Bl -tag -width 10n -offset indent
+.It Li -I /usr/include/algol68 -I /usr/include
+.El
+.Lp
+This option may be repeated.
+.
+.It Fl L Ar link-dir
+Adds
+.Ar link-dir
+to the list of libraries which
+.Xr gcc 1
+will search for libraries for linking. It should be followed by
+.Fl l Ar link-lib
+parameters indicating the libraries to be searched. The default is
+.Bl -tag -width 10n -offset indent
+.It Li -L /usr/lib -L ${HOME}/lib
+.El
+.Lp
+This option may be repeated.
+.
+.It Fl l Ar lib
+Adds
+.Ar lib
+to the list of libraries which
+.Xr gcc 1
+will search for precompiled routines for linking. It should be preceded by
+a
+.Fl L Ar link-dir
+option giving the directory to search for the library unless it can
+be found in the list of libraries already defined (or by default).
+The following libraries are searched last in the linking process:-
+.Bl -tag -width 10n -offset indent
+.It Li -la68s -la68 -lm -lc
+.El
+.Lp
+This option may be repeated.
+.
+.It Fl M Ar lib-dir
+Specifies the directory which contains static libraries of
+pre-compiled modules.
+.Nm
+presumes that the .m file produced by
+.Xr a68toc 1
+from a declarations module will be moved to the sub-directory
+.Ql m
+in the directory specified by this parameter.
+.
+.
+.It Fl m Ar mod-lib
+Specifies a static library of pre-compiled modules. When compiling a
+declarations module, If the library does not exist, it will be
+created. This option may be repeated.
+.
+.
+.It Fl s Ar staredit
+Specifies the staredit characters to use for this compilation. The
+default value is taken from the
+.Ev A68_STAREDIT
+environment string.
+.
+.
+.It Fl u Ar uname
+Specifies the
+.Ar uname
+command for
+.Xr a68toc 1 .
+The default is
+.Ql seedfile .
+See
+.Xr a68toc 1
+for further details.
+.
+.
+.It Fl w Ar web68-dirs
+Specifies a colon-separated list of directories to be added to the
+list of directories in which
+.Xr tang 1
+should look for Web 68 include files. The default value is
+.Bl -tag -width 10n -offset indent
+.It Pa /usr/include/algol68
+.El
+.
+.El
+.
+.Sh FILES
+.
+None.
+.
+.
+.Sh ENVIRONMENT
+.Bl -tag -width Ds
+.
+.
+.It Ev A68_STAREDIT
+Should contain any number of single digits or upper-case letters. The
+staredit mechanism works as follows:
+.
+.
+.Bl -tag -width Ds -offset indent
+.It Ao Ns Ar cmd Ns Ac Ao Ns Ar tag Ns Ac
+A line subject to the the staredit mechanism should start with a
+single-character command
+.Ao Ns Ar cmd Ns Ac
+which can be
+.Ql \&*
+or
+.Ql \&%
+followed by a single-character
+.Ao Ns Ar tag Ns Ac
+which can be a digit or an upper-case letter.
+.
+.
+.It \&* Ar tag
+If
+.Ao Ns Ar tag Ns Ac
+appears in the
+.Em staredit
+option, include this line. If
+.Ao Ns Ar tag Ns Ac
+does not appear in the
+.Em staredit
+option, exclude this line.
+.
+.
+.It \&% Ar tag
+If
+.Ar tag
+appears in the
+.Em staredit
+option, exclude this line. If
+.Ar tag
+does not appear in the
+.Em staredit
+option, include this line.
+.El
+.
+.El
+.
+.
+.Sh EXAMPLES
+.
+.Bl -tag -width Ds
+.
+.It Ar "ca68 prog"
+This command will translate the source
+.Ar prog.a68
+into C, compile it with
+.Xr gcc 1
+and then link it to produce the executable
+.Pa prog
+in the current directory. The object file
+.Li prog.o
+will be linked with the standard Algol 68 libraries.
+.
+.
+.It Ar "ca68 -d ~/lib/m -L /usr/X11R6/lib -l forms -l flimage -l X11 -w . prog.w68"
+This command will run
+.Xr tangle68 1 ,
+then
+.Xr a68toc 1 ,
+then
+.Xr gcc 1
+and will then link the resulting
+.Pa prog.o
+file with the Xforms libraries. Included Web 68 files will be searched for in the
+current working directory and directory
+.Pa ~/lib/m
+will be searched for .m files of precompiled modules.
+.
+.
+.It Ar "ca68 -d . -M ~/lib -m liba68prel.a decs.a68"
+The declaration module
+.Ar decs.a68
+will be translated to C, compiled to object form and then stored in
+.Pa liba68prel.a
+in directory
+.Pa ~/lib .
+The .m file will be stored in
+.Pa ~/lib/m .
+\&.m files from precompiled modules will be looked for in the current
+working directory.
+.
+.El
+.
+.
+.Sh SEE ALSO
+.Xr a68toc 1 ,
+.Xr gcc 1 ,
+.Xr tang 1 .
+.
+.
+.Sh COPYRIGHT
+Copyright (C) 2002 Phoenix Engineering and available under the GNU
+Public Licence version 2 or any later version.
+.
+.
+.Sh AUTHOR
+Sian Leitch

@@ -1,0 +1,16 @@
+This file lists the contents and use of directory
+                   /usr/src/ctrans/stanprel/
+
+This directory contains subdirectories
+      a    The algol68 source files for the standard prelude
+      c    The c source files resulting from translation
+      m    The modules files
+      bin  The object files
+
+The file
+      rctr             contains AAAAASP
+        
+This area depends on:-   include
+                         sunos   or  i386emx  or  Linux
+                         library
+                         a68library
