@@ -1,0 +1,61 @@
+                         How to install Algol68toC
+                         =========================
+1. Terminology
+
+In what follows, three terms are used specifically:-
+
+   Algol68toC -- refers to the complete Algol68toC package
+   a68toc     -- refers to the Algol68toC compiler
+   m file     -- refers to those files produced by `a68toc' whose file
+                 extension is `.m'.
+
+2. Programs
+
+You will need the following programs:-
+       make, gcc, ld, ldconfig
+       latex, makeinfo
+       ar, ranlib, tar
+       cp, mv, rm, find, sh
+
+The build was successful with Debian GNU/Linux using a 2.4.17 kernel.
+
+3. Header files
+
+You will need the header files from the following package:-
+          libc6-dev
+Note that the build used a /usr/include/linux which was a
+symbolic link to /usr/src/kernel-headers-2.4.17/include
+
+4. Debian
+
+Issue the commands:-
+	export A68_NAMESEED=nameseed (for bash or sh)
+	make dist-clean
+	debian/rules binary
+to construct the Debian binary package.
+
+5. Amending the source
+
+If you find a need to amend the Algol 68 source, please ensure that you add
+your name (and organisation, if relevant) to the amendments list at the start
+of the relevant source file. The maintainer of the Algol68toC package would be
+pleased to hear of any amendments which you have made which would be of general
+use.
+
+NOTES
+(1) The library `liba68prel.a', produced in the early part of the
+`make' is only used for `a68toc'. It is NOT part of the
+installation and cannot be used by user programs unless the user
+cares to document the routines therein. Far better to use the
+standard prelude which has all the functionality and more.
+
+(2) The licence is essentially GNU although not written as such.
+However, the licence for the QAD Standard Prelude is the GNU GPL
+(version 2 or later).
+
+(3) I should like to hear from you if you find any bugs.
+
+Dr Sian Leitch
+An Ard-Ghnìomhachas
+Inbhir Nis
+Dàl Riada
